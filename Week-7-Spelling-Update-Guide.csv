@@ -1,0 +1,49 @@
+Slide Number,Slide Title,Element,Content,Formatting,Color
+1,Title Slide,Main Text,Literacy Learning,"Large, Bold",#186433
+1,Title Slide,Subtitle,"Term 4, Week 7",Medium,#186433
+2,Word of Week Title,Main Text,Word of the Week,"Italic, Centered",Black
+3,Learning Objectives,Heading,Word of the Week,Bold,#186433
+3,Learning Objectives,Section Title,Learning Intention,Italic,#186433
+3,Learning Objectives,Content,To build our vocabulary knowledge,Normal,#186433
+3,Learning Objectives,Section Title,Success Criteria,Italic,#186433
+3,Learning Objectives,Content,I know the meaning of the Word of the Week,Normal,#186433
+3,Learning Objectives,Content,I can begin to use the Word of the Week in a sentence,Normal,#186433
+4,Revision Words,Word 1,Acknowledge:,Italic,Black
+4,Revision Words,Definition 1,"To show that you know something (for example, by nodding or speaking), to declare that something is true, or to accept what is claimed.",Normal,Black
+4,Revision Words,Word 2,Ravine:,Italic,Black
+4,Revision Words,Definition 2,"A ravine is a deep, narrow valley with steep sides, often formed by running water like a small river or stream.",Normal (bold 'ravine'),Black
+4,Revision Words,Word 3 - NEW,adjourn:,Italic,Black
+4,Revision Words,Definition 3 - NEW,"to suspend a meeting, court case, or other formal proceeding, either for a short break or until a later time or date, with the intention of resuming it.",Normal,Black
+5,Word Introduction,Heading,Our Word of the Week is… contentious,Large,Black
+5,Word Introduction,Sidebar,Word of the Week,Italic,Black
+5,Word Introduction,Label,phonemes:,Italic,Black
+5,Word Introduction,Phonemes,c on t en t ious,"Normal (highlight c, t, t in red)",#FF0000 for highlights
+5,Word Introduction,Label,syllables:,Italic,#CC00FF
+5,Word Introduction,Syllables,con/ten/tious,Normal,Black
+5,Word Introduction,Label,Sentence:,Italic,Black
+5,Word Introduction,Sentence,The contentious debate about school uniforms divided the community and sparked heated discussions at the town hall meeting.,Normal,Black
+5,Word Introduction,Label,Part of speech:,Italic,Black
+5,Word Introduction,Part of Speech,Adjective,Normal,Black
+5,Word Introduction,Label,Morphology:,Italic,#CC00FF
+5,Word Introduction,Morphology 1,"con- ""together/with"" (Latin)",Normal (con- in red),#FF0000 for 'con-'
+5,Word Introduction,Morphology 2,"tend ""to stretch"" (Latin)",Normal (tend in red),#FF0000 for 'tend'
+5,Word Introduction,Morphology 3,"contentio ""strife, contest"" (Latin)",Normal (contentio in red),#FF0000 for 'contentio'
+5,Word Introduction,Morphology 4,"literally ""to stretch together in conflict""",Normal,Black
+6,Definition,Heading,Our Word of the Week is… contentious,Large,Black
+6,Definition,Sidebar,Word of the Week,Italic,Black
+6,Definition,Label,What does it mean?,Italic,Black
+6,Definition,Definition,contentious (adjective) — causing or likely to cause disagreement or argument; controversial; or inclined to argue or quarrel.,Normal (contentious in red),#FF0000 for 'contentious'
+6,Definition,Label,Partner Discussion:,Italic,Black
+6,Definition,Discussion,Discuss a time when you witnessed or participated in a contentious discussion. What made it contentious?,Normal,Black
+7,Synonyms,Heading,Our Word of the Week is… contentious,Large,Black
+7,Synonyms,Synonym 1,argumentative,Normal,#186433
+7,Synonyms,Synonym 2,quarrelsome,Normal,#186433
+7,Synonyms,Synonym 3,combative,Normal,#186433
+7,Synonyms,Synonym 4,controversial,Normal,#186433
+7,Synonyms,Synonym 5,disputatious,Normal,#186433
+7,Synonyms,Synonym 6,pugnacious,Normal,#186433
+7,Synonyms,Synonym 7,bellicose,Normal,#186433
+7,Synonyms,Synonym 8,belligerent,Normal,#186433
+7,Synonyms,Synonym 9,fractious,Normal,#186433
+7,Synonyms,Synonym 10,polemical,Normal,#186433
+7,Synonyms,Synonym 11,confrontational,Normal,#186433
