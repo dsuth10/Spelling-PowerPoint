@@ -158,6 +158,11 @@ select {
   /* Fix width issues */
 }
 
+select option {
+  background-color: var(--bg-panel);
+  color: var(--text-main);
+}
+
 input:focus,
 textarea:focus,
 select:focus {

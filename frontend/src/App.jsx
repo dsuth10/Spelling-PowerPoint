@@ -11,8 +11,9 @@ function App() {
 
   // AI Settings
   const [provider, setProvider] = useState('openrouter') // 'openrouter' | 'ollama'
-  const [apiKey, setApiKey] = useState('')
+  // const [apiKey, setApiKey] = useState('') // API Key is now hardcoded in backend
   const [ollamaModels, setOllamaModels] = useState([])
+  const [openRouterModels, setOpenRouterModels] = useState([])
   const [selectedModel, setSelectedModel] = useState('')
 
   // Form State
@@ -27,6 +28,8 @@ function App() {
   useEffect(() => {
     if (provider === 'ollama') {
       fetchModels()
+    } else if (provider === 'openrouter') {
+      fetchOpenRouterModels()
     }
   }, [provider])
 
@@ -80,6 +83,21 @@ function App() {
     }
   }
 
+  const fetchOpenRouterModels = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/openrouter-models')
+      if (response.ok) {
+        const models = await response.json()
+        setOpenRouterModels(models)
+        // Set a default if available, preferably gemini-flash
+        const defaultModel = models.find(m => m.id.includes('gemini-1.5-flash')) || models[0]
+        if (defaultModel) setSelectedModel(defaultModel.id)
+      }
+    } catch (err) {
+      console.error("Failed to fetch OpenRouter models", err)
+    }
+  }
+
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
@@ -109,7 +127,7 @@ function App() {
     const data = new FormData()
     data.append('file', file)
     data.append('provider', provider)
-    if (apiKey) data.append('api_key', apiKey)
+    // if (apiKey) data.append('api_key', apiKey) // API Key is hardcoded
     if (selectedModel) data.append('model', selectedModel)
 
     try {
@@ -141,8 +159,8 @@ function App() {
     const payload = {
       ...formData,
       provider,
-      api_key: provider === 'openrouter' ? apiKey : undefined,
-      model: provider === 'ollama' ? selectedModel : undefined
+      // api_key: provider === 'openrouter' ? apiKey : undefined, // API Key is hardcoded
+      model: selectedModel
     }
 
     try {
@@ -180,7 +198,7 @@ function App() {
   }
 
   const isMagicReady = () => {
-    if (provider === 'openrouter') return !!apiKey
+    if (provider === 'openrouter') return true // API Key is hardcoded
     if (provider === 'ollama') return true // Assuming Ollama is always ready if selected
     return false
   }
@@ -217,14 +235,20 @@ function App() {
       {provider === 'openrouter' ? (
         <div className="input-group">
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-            Enter your OpenRouter API Key:
+            Select OpenRouter Model:
           </p>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="sk-or-..."
-          />
+          <select
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+          >
+            {openRouterModels.length === 0 && <option>Loading models...</option>}
+            {openRouterModels.map(model => (
+              <option key={model.id} value={model.id}>{model.name} ({model.id})</option>
+            ))}
+          </select>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+            ✅ OpenRouter API Key is configured.
+          </p>
         </div>
       ) : (
         <div className="input-group">

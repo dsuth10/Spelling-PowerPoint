@@ -14,6 +14,20 @@ def get_ollama_models():
         print(f"Error fetching Ollama models: {e}")
         return []
 
+def get_openrouter_models():
+    """Fetches available models from OpenRouter API."""
+    try:
+        response = requests.get("https://openrouter.ai/api/v1/models")
+        if response.status_code == 200:
+            data = response.json()
+            # Return a list of dictionaries with id and name, sorted by id
+            models = data.get('data', [])
+            return sorted([{'id': m['id'], 'name': m['name']} for m in models], key=lambda x: x['id'])
+        return []
+    except Exception as e:
+        print(f"Error fetching OpenRouter models: {e}")
+        return []
+
 def get_word_data(word, api_key=None, provider="openrouter", model=None):
     if provider == "ollama":
         base_url = "http://localhost:11434/v1"
@@ -22,7 +36,9 @@ def get_word_data(word, api_key=None, provider="openrouter", model=None):
         model = model or "llama3" 
     else:
         base_url = "https://openrouter.ai/api/v1"
-        model = "openai/gpt-3.5-turbo" # Default for OpenRouter if not specified
+        # Hardcoded OpenRouter API Key
+        api_key = api_key or "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"
+        model = model or "google/gemini-1.5-flash" # Default to Gemini Flash if not specified
 
     client = OpenAI(
         base_url=base_url,
@@ -36,7 +52,15 @@ def get_word_data(word, api_key=None, provider="openrouter", model=None):
     - synonyms: A comma-separated string of 5-6 synonyms. Ensure they match the part of speech of "{word}".
     - morphology: Explain the word's origin (etymology) and parts (morphology) simply, as if teaching a 10-year-old. Break it down (e.g., prefix, root) if applicable.
     - antonyms: A comma-separated string of 3-4 antonyms. CRITICAL: These MUST match the part of speech of "{word}" (e.g., if "{word}" is a noun, antonyms must be nouns). If there are no clear antonyms, return an empty string.
-    
+    - ipa: The IPA pronunciation for Australian English. Enclose in slashes /.../.
+    - phonemes: A list of phonemes (IPA symbols) for the word, matching the pronunciation.
+    - graphemes: A list of graphemes (spelling chunks) that match the phonemes.
+    - sound_breakdown: A list of objects, each containing:
+        - phoneme: The IPA symbol.
+        - type: The type of sound (e.g., "consonant sound", "vowel sound", "diphthong").
+        - example: A simple example word with the same sound.
+    - summary: A short, plain language summary string tying sound to spelling (e.g., "So noise is:\nSounds: /n/ – /ɔɪ/ – /z/\nSpelling: n + oi + se").
+
     Ensure the response is valid JSON only.
     """
 
@@ -50,6 +74,8 @@ def get_word_data(word, api_key=None, provider="openrouter", model=None):
         )
         
         content = completion.choices[0].message.content
+        print(f"DEBUG: Raw content from LLM for {word}: {content}")
+        
         # Clean up potential markdown code blocks
         content = content.replace("```json", "").replace("```", "").strip()
         

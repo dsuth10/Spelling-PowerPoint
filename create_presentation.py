@@ -137,41 +137,83 @@ def add_word_slides(prs, word_data, start_slide_num=1):
         {"Slide Title": "Title Slide", "Element": "Subtitle", "Content": "Spelling Focus", "Formatting": "Medium", "Color": "#186433"}
     ]
     
-    # Slide 2: Definition
-    slides_config[2] = [
+    # Slide 2: Phonemic Separation
+    phonemes_list = word_data.get('phonemes', [])
+    graphemes_list = word_data.get('graphemes', [])
+    sound_breakdown = word_data.get('sound_breakdown', [])
+    summary = word_data.get('summary', "")
+    ipa = word_data.get('ipa', "")
+
+    if phonemes_list and graphemes_list:
+        slide_rows = [
+            {"Slide Title": "Phonemic Separation", "Element": "Heading", "Content": "Phonemic Separation", "Formatting": "Large", "Color": "Black"},
+            
+            # 1. Word + IPA
+            {"Slide Title": "Phonemic Separation", "Element": "Content", "Content": f"Word: {word_data['word']}", "Formatting": "Italic", "Color": "Black"},
+            {"Slide Title": "Phonemic Separation", "Element": "Content", "Content": f"IPA (Aus English): {ipa}", "Formatting": "Normal", "Color": "Black"},
+            
+            # 2. Phonemes
+            {"Slide Title": "Phonemic Separation", "Element": "Content", "Content": "Phonemes: " + " – ".join(phonemes_list), "Formatting": "Normal", "Color": "Black"},
+            
+            # 3. Spelling chunks
+            {"Slide Title": "Phonemic Separation", "Element": "Content", "Content": "Spelling chunks (graphemes): " + " + ".join(graphemes_list), "Formatting": "Normal", "Color": "Black"},
+            
+            # 4. Sound breakdown
+            {"Slide Title": "Phonemic Separation", "Element": "Content", "Content": "Sound breakdown:", "Formatting": "Bold", "Color": "Black"},
+        ]
+        
+        for item in sound_breakdown:
+            phoneme = item.get('phoneme', '')
+            sound_type = item.get('type', '')
+            example = item.get('example', '')
+            # Note: We can't easily bold just the phoneme in this simple text run structure without more complex logic.
+            # For now, we'll format the whole line normally, but maybe bold the phoneme if possible in future.
+            # Or we can just put the phoneme in bold in the text string if the renderer supported markdown, which it likely doesn't.
+            # Let's just stick to the requested text format.
+            line_content = f"{phoneme} – {sound_type}, like {example}"
+            slide_rows.append({"Slide Title": "Phonemic Separation", "Element": "Content", "Content": line_content, "Formatting": "Normal", "Color": "Black"})
+
+        # 5. Summary
+        if summary:
+             slide_rows.append({"Slide Title": "Phonemic Separation", "Element": "Content", "Content": summary, "Formatting": "Normal", "Color": "Black"})
+
+        slides_config[2] = slide_rows
+
+    # Slide 3: Definition
+    slides_config[3] = [
         {"Slide Title": "Definition", "Element": "Heading", "Content": "Definition", "Formatting": "Large", "Color": "Black"},
         {"Slide Title": "Definition", "Element": "Content", "Content": word_data['definition'], "Formatting": "Normal", "Color": "Black"}
     ]
     
-    # Slide 3: Sentence
-    slides_config[3] = [
+    # Slide 4: Sentence
+    slides_config[4] = [
         {"Slide Title": "Usage in a Sentence", "Element": "Heading", "Content": "Usage in a Sentence", "Formatting": "Large", "Color": "Black"},
         {"Slide Title": "Usage in a Sentence", "Element": "Content", "Content": word_data['sentence'], "Formatting": "Normal", "Color": "Black"}
     ]
     
-    # Slide 4: Word Origin & Parts
+    # Slide 5: Word Origin & Parts
     origin_content = word_data.get('morphology') or word_data.get('etymology')
     if origin_content:
-        slides_config[4] = [
+        slides_config[5] = [
             {"Slide Title": "Word Origin & Parts", "Element": "Heading", "Content": "Word Origin & Parts", "Formatting": "Large", "Color": "Black"},
             {"Slide Title": "Word Origin & Parts", "Element": "Content", "Content": origin_content, "Formatting": "Normal", "Color": "Black"}
         ]
         
-    # Slide 5: Synonyms
+    # Slide 6: Synonyms
     if word_data.get('synonyms'):
         synonyms_list = word_data['synonyms'].split(',')
         slide_rows = [{"Slide Title": "Synonyms", "Element": "Heading", "Content": "Synonyms", "Formatting": "Large", "Color": "Black"}]
         for syn in synonyms_list:
             slide_rows.append({"Slide Title": "Synonyms", "Element": "Content", "Content": syn.strip(), "Formatting": "Normal", "Color": "#186433"})
-        slides_config[5] = slide_rows
+        slides_config[6] = slide_rows
 
-    # Slide 6: Antonyms
+    # Slide 7: Antonyms
     if word_data.get('antonyms'):
         antonyms_list = word_data['antonyms'].split(',')
         slide_rows = [{"Slide Title": "Antonyms", "Element": "Heading", "Content": "Antonyms", "Formatting": "Large", "Color": "Black"}]
         for ant in antonyms_list:
             slide_rows.append({"Slide Title": "Antonyms", "Element": "Content", "Content": ant.strip(), "Formatting": "Normal", "Color": "#B91C1C"})
-        slides_config[6] = slide_rows
+        slides_config[7] = slide_rows
 
     # Now actually create the slides in the presentation
     for slide_key in sorted(slides_config.keys()):

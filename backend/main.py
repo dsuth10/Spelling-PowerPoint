@@ -13,7 +13,7 @@ import tempfile
 # Add parent directory to path to import create_presentation
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from create_presentation import create_presentation, create_presentation_from_data
-from backend.llm_service import get_word_data, get_ollama_models
+from backend.llm_service import get_word_data, get_ollama_models, get_openrouter_models
 import backend.job_manager as job_manager
 
 app = FastAPI()
@@ -50,6 +50,11 @@ async def root():
 async def get_models():
     """Returns list of available Ollama models."""
     return get_ollama_models()
+
+@app.get("/openrouter-models")
+async def get_openrouter_models_endpoint():
+    """Returns list of available OpenRouter models."""
+    return get_openrouter_models()
 
 def process_batch_job(job_id: str, temp_csv_path: str, provider: str, api_key: str, model: str):
     """Background task to process the CSV and generate files."""
@@ -157,6 +162,7 @@ async def download_file(job_id: str, filename: str):
 
 # Keep the old single-word endpoint for compatibility/testing
 @app.post("/generate-word")
+
 async def generate_word(request: WordRequest):
     output_pptx = f"Generated_{request.word}.pptx"
     
@@ -166,7 +172,8 @@ async def generate_word(request: WordRequest):
         use_ai = False
         if request.provider == "ollama":
             use_ai = True
-        elif request.provider == "openrouter" and request.api_key:
+        elif request.provider == "openrouter":
+            # API key is optional in request as it can be hardcoded in backend
             use_ai = True
             
         if use_ai and not request.definition:
