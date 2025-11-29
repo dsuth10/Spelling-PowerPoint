@@ -1,6 +1,7 @@
 from openai import OpenAI
 import json
 import requests
+import os
 
 def get_ollama_models():
     """Fetches available models from local Ollama instance."""
@@ -36,8 +37,8 @@ def get_word_data(word, api_key=None, provider="openrouter", model=None):
         model = model or "llama3" 
     else:
         base_url = "https://openrouter.ai/api/v1"
-        # Hardcoded OpenRouter API Key
-        api_key = api_key or "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"
+        # Use API Key from environment variable
+        api_key = api_key or os.getenv("OPENROUTER_API_KEY")
         model = model or "google/gemini-1.5-flash" # Default to Gemini Flash if not specified
 
     client = OpenAI(

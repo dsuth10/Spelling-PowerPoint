@@ -4,3 +4,4 @@ python-pptx
 python-multipart
 openai
 requests
+python-dotenv

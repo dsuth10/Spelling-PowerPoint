@@ -9,6 +9,10 @@ import sys
 import csv
 from datetime import datetime
 import tempfile
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 # Add parent directory to path to import create_presentation
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
